@@ -16,7 +16,8 @@ setup(
       install_requires=[
           "wget",
           "bs4",
-          "selenium"
+          "selenium",
+          "google-cloud"
       ],
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",

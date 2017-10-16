@@ -9,9 +9,6 @@ import os
 
 from bucket import TiffBucket
 
-# TODO: Write a setup.py file for easy intall.
-# TODO: Write some docs on dependecies.
-
 class Scraper():
     '''
         Web Scraper Class for fetching LandSat images from google.
@@ -44,6 +41,7 @@ class Scraper():
 
         print("Using: " + self.driver.name)
 
+        self.AUTH = False
         self.EMAIL = gmail
         self.PASSWORD = password
         self.LAND_SAT_URL = "https://console.cloud.google.com/storage/browser/gcp-public-data-landsat/"
@@ -59,6 +57,11 @@ class Scraper():
         :password: A string of associated password with the gmail account.
 
         '''
+
+        # if we are already authenticated we don't need to do any of this.
+        if self.AUTH == True:
+            return
+
         if user == None or passphrase == None:
             user = self.EMAIL
             passphrase = self.PASSWORD
@@ -110,7 +113,7 @@ class Scraper():
 
         return
 
-    def buildUrl(self, SENSOR_ID, PATH, ROW, SCENE_ID):
+    def buildUrl(self, SENSOR_ID, FOLD, PATH, ROW, SCENE_ID):
         '''
             /[SENSOR_ID]/PRE/[PATH]/[ROW]/[SCENE_ID]/
 
@@ -124,14 +127,24 @@ class Scraper():
             ex) gcp-public-data-landsat/LC08/PRE/044/034/LC80440342016259LGN00/
 
         '''
-        url = self.LAND_SAT_URL + SENSOR_ID + "/PRE/" + PATH + "/" + ROW + "/" + SCENE_ID
+        url = self.LAND_SAT_URL + SENSOR_ID + "/" + FOLD + "/" + PATH + "/" + ROW + "/" + SCENE_ID
 
         return url
 
+    def break_url(self, url):
+        pieces = url.split("/")[-5:]
+        return pieces
 
-    def ScrapeBucket(self, SENSOR_ID, PATH, ROW, SCENE_ID):
+    def Scrape_From_Bucket_URL(self, url):
+
+        SENSOR_ID, FOLD, PATH, ROW, SCENE_ID = self.break_url(url)
+
+        return self.ScrapeBucket(SENSOR_ID, FOLD, PATH, ROW, SCENE_ID)
+
+
+    def ScrapeBucket(self, SENSOR_ID, FOLD, PATH, ROW, SCENE_ID):
         '''
-            /[SENSOR_ID]/PRE/[PATH]/[ROW]/[SCENE_ID]/
+            /[SENSOR_ID]/[PRE]/[PATH]/[ROW]/[SCENE_ID]/
 
             The components of this path are:
 
@@ -147,11 +160,14 @@ class Scraper():
 
         '''
         # Build the URL of the bucket we want to get.
-        self.BUCKET_URL = self.buildUrl(SENSOR_ID, PATH, ROW, SCENE_ID)
+        self.BUCKET_URL = self.buildUrl(SENSOR_ID, FOLD, PATH, ROW, SCENE_ID)
         print("\nAttempting to fetch bucket at... ", self.BUCKET_URL)
 
         # Have Selenium auto authenticate and proceed to the URL containing the bucket.
-        self.authenticate()
+        # If we are already Authenticated we can ignore.
+        if self.AUTH == False:
+            self.authenticate()
+            self.AUTH = True
 
         if (self.driver.title == "Error 400 (Not Found)!!1"):
             print("page not found")
@@ -163,7 +179,7 @@ class Scraper():
         soup = BeautifulSoup(tiff_table.get_attribute('innerHTML'), 'html.parser')
         rows = soup.findAll("span", { "class" : "p6ntest-cloudstorage-object-link" })
 
-        TB = TiffBucket(SENSOR_ID, PATH, ROW, SCENE_ID)
+        TB = TiffBucket(SENSOR_ID, FOLD, PATH, ROW, SCENE_ID)
 
         for span in rows:
             TB.add(span.a['href'])

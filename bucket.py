@@ -8,11 +8,12 @@ class TiffBucket():
         website does not pass the correct links in their HREFS, to the tail of the links
         need to be changed to reflect a header we can download from.
     '''
-    def __init__(self, SENSOR_ID, PATH, ROW, SCENE_ID):
+    def __init__(self, SENSOR_ID, FOLD, PATH, ROW, SCENE_ID):
 
         self.TIFF_HREFS = []
         self.TXT_METADATA = ''
         self.SENSOR_ID = SENSOR_ID
+        self.FOLD = FOLD
         self.PATH = PATH
         self.ROW = ROW
         self.SCENE_ID = SCENE_ID
@@ -36,7 +37,7 @@ class TiffBucket():
     def download_file(self, url):
 
         local_filename = url.split('/')[-1]
-        datapath = "data/" + self.SENSOR_ID + "/PRE/" + self.PATH + "/" + self.ROW + "/" + self.SCENE_ID + "/"
+        datapath = "data/" + self.SENSOR_ID + "/" + self.FOLD + "/" + self.PATH + "/" + self.ROW + "/" + self.SCENE_ID + "/"
 
         # Check if there is a directory available for this Sat Path
         try:
@@ -47,6 +48,7 @@ class TiffBucket():
 
         # wget is used so I could easily show the download bar.
         # if needed requests could be used here instead.
+        # url.split("/")[-2:]
         tiff = wget.download(url, out=datapath)
         print("\nFILE " + local_filename +" ADDED TO: "+ datapath)
         return local_filename
