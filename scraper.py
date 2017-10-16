@@ -81,7 +81,6 @@ class Scraper():
         passwordNext = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.ID, "passwordNext")))
         password.send_keys(passphrase)
         passwordNext.click()
-        #password.send_keys(Keys.RETURN)
 
         return
 
@@ -143,7 +142,7 @@ class Scraper():
 
             ex) gcp-public-data-landsat/LC08/PRE/044/034/LC80440342016259LGN00/
 
-            Output: A Bucket Objects that contains all the information needed
+            Output: A TiffBucket Object that contains all the information needed
             to download the file and convert metadata to exnode.
 
         '''
