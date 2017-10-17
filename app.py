@@ -30,7 +30,8 @@ def download_recent_USGS_TIFFS():
     print("\nFiles to be downloaded: ", len(urls), '\n')
 
     # Instantiate the web scraper to find urls in each bucket.
-    S = Scraper(gmail="<YOUR EMAIL>", password="<PASSWORD>", headless=True)
+    # This is a dummy email I don't care about uploading to git, too lazy to make an encrypted config file atm.
+    S = Scraper(gmail="crest14059@gmail.com", password="cr3st14059", headless=True)
 
     filecount = 0
     # for each bucket, get the relevant urls and download them.

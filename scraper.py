@@ -4,6 +4,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
 import requests
 import os
 
@@ -26,15 +28,23 @@ class Scraper():
         '''
         # Driver will default to Chrome, if false driver is set to Firefox
         if headless == True:
+
             print("Starting Headless Browser... \n")
             options = webdriver.ChromeOptions()
-            options.add_argument('headless')
-            options.add_argument('window-size=1200x600')
+            options.add_argument('--headless')
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-setuid-sandbox")
+            options.add_argument('--window-size=1200x600')
+            options.add_argument('--ignore-certificate-errors')
+            options.add_argument('--log-path=chromedriver.log')
+
+            log_args = ["--log-path=chrome.log"]
+
             path = str(os.path.dirname(os.path.realpath(__file__)) + "/webdriver/chromedriver")
             print(path)
             path = str(os.system("which chromedriver"))
 
-            self.driver = webdriver.Chrome(chrome_options=options)
+            self.driver = webdriver.Chrome(chrome_options=options, service_args=log_args, service_log_path='cd.log')
 
         else:
             self.setDriver(driver)
@@ -79,11 +89,12 @@ class Scraper():
 
         self.driver.implicitly_wait(3)
         password = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.NAME, "password")))
+        password.send_keys(passphrase)
         print("Entered Pass\n")
 
-        passwordNext = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.ID, "passwordNext")))
-        password.send_keys(passphrase)
-        passwordNext.click()
+        passwordNext = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.ID, "passwordNext"))).click()
+        print("Submitted.")
+
 
         return
 
@@ -169,12 +180,15 @@ class Scraper():
             self.authenticate()
             self.AUTH = True
 
+
         if (self.driver.title == "Error 400 (Not Found)!!1"):
             print("page not found")
 
+        print('waiting for centOS...')
+        self.driver.implicitly_wait(10)
         # Detect the table, wait for it to load
-        tiff_table = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'p6n-storage-objects-table')))
-
+        tiff_table = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located((By.ID, 'p6n-storage-objects-table')))
+        #tiff_table = self.driver.find_element_by_id('p6n-storage-objects-table')
         # Convert Table Element to HTML and parse it with BS4.
         soup = BeautifulSoup(tiff_table.get_attribute('innerHTML'), 'html.parser')
         rows = soup.findAll("span", { "class" : "p6ntest-cloudstorage-object-link" })

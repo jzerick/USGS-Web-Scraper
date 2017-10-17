@@ -33,7 +33,9 @@ to run the full browser from a terminal.
 
 CentOS also needs protobuf library, but for whatever reason it doesnt install correctly on CentOS using pip.
 See here: https://blog.jeffli.me/blog/2016/12/08/install-protocol-buffer-from-source-in-centos-7/ to install it.
-It takes forever.
+It takes forever. If you have protobuf installed from your google-cloud python installation, you can run the app to
+check if it works. If protobuf module can't be found and protobuf shows up in your python environment then you will
+need to install the binaries unfortunately D: .
 
 ## Deployment
 
