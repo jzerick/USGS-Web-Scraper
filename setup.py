@@ -17,7 +17,8 @@ setup(
           "wget",
           "bs4",
           "selenium",
-          "google-cloud"
+          "google-cloud",
+          "uuid"
       ],
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",

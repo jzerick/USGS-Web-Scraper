@@ -31,6 +31,10 @@ to get geckodriver and chromedriver in the right place to run Selenium.
 For CentOS deployment run the script ` webdriver/centos_chromedriver.sh `. CentOS deployment only needs the chromedriver since there is generally no GUI
 to run the full browser from a terminal.
 
+CentOS also needs protobuf library, but for whatever reason it doesnt install correctly on CentOS using pip.
+See here: https://blog.jeffli.me/blog/2016/12/08/install-protocol-buffer-from-source-in-centos-7/ to install it.
+It takes forever.
+
 ## Deployment
 
 TODO: Build out a Daemon that automatically gets and pushes TIFFS. Build out something that can 'listen' to file changes?

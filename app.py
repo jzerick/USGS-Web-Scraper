@@ -11,6 +11,8 @@ from search import Query
     TODO: convert TIFFs to exnodes and push them to UNIS.
     TODO: hand off TIFFs to DLT
     TODO: On sys exit clean up processes
+    TODO: logging? D:
+    TODO: Tests.
 '''
 
 
