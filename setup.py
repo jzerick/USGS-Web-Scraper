@@ -15,9 +15,11 @@ setup(
     include_package_data = True,
       install_requires=[
           "wget",
-          "bs4",
-          "selenium",
-          "google-cloud",
+          #"bs4",
+          #"selenium",
+          "google-cloud==0.27.0",
+          "google-cloud-bigquery==0.27.0",
+          "google-cloud-storage==1.6.0",
           "uuid"
       ],
     classifiers=[
