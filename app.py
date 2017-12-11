@@ -1,7 +1,7 @@
 from scraper import Scraper
 from bucket import TiffBucket
 from search import Query
-
+from cloudstoragedriver import Cloud
 
 # to run a simple test replace <YOUR EMIAL> and <YOUR PASSWORD> with a dummy
 # gmail account or your own.
@@ -31,16 +31,20 @@ def download_recent_USGS_TIFFS():
 
     # Instantiate the web scraper to find urls in each bucket.
     # This is a dummy email I don't care about uploading to git, too lazy to make an encrypted config file atm.
-    S = Scraper(gmail="crest14059@gmail.com", password="cr3st14059", headless=True)
-
+    #S = Scraper(gmail="crest14059@gmail.com", password="cr3st14059", headless=True)
+    C = Cloud(path = '/data')
     filecount = 0
     # for each bucket, get the relevant urls and download them.
     for url in urls:
         filecount += 1
         print('\n Working on %s of %s Buckets.' % (filecount, len(urls) + 1))
         print('\n Fetching Bucket: ', url)
-        bucket = S.Scrape_From_Bucket_URL(url)
-        bucket.download_bucket()
+        bucket = C.GetBucket(url)
+        print(bucket)
+
+        #
+        #bucket = S.Scrape_From_Bucket_URL(url)
+        #bucket.download_bucket()
 
 
     print(filecount, " files added.")
