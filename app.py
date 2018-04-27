@@ -30,7 +30,6 @@ def download_recent_USGS_TIFFS():
 
     # Instantiate the web scraper to find urls in each bucket.
     # This is a dummy email I don't care about uploading to git, too lazy to make an encrypted config file atm.
-    #S = Scraper(gmail="crest14059@gmail.com", password="cr3st14059", headless=True)
     # dont use above, just filler for if the web scraper ever becomes a thing again
 
     C = Cloud(path = '/data')
