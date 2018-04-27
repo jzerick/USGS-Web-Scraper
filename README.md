@@ -28,6 +28,7 @@ What things you need to install the software and how to install them
 ### Installing
 
 Run `python3 setup.py build install` (perhaps in a local python virtual env).
+Use `python3 app.py` to begin fetching USGS landsat data.
 
 
 
