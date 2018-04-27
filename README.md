@@ -4,12 +4,17 @@ Scrapes Google Storage website and API for USGS satellite TIFFS. From these TIFF
 we take the relevant metadata, push them out to UNIS, and then send the files to DLT
 to be stored.
 
+## TODO
+
+- Hook up with Lib-DLT, automate upload process to DLT.
+- Run as a Daemon? Make the app 'listen' for new files? Or just add command line options for periodic polling? Currently polls everything within the last week.
+
 ## IMPORTANT
 
 After install, just run `app.py`. *No longer using Selenium to scrape HTML, instead using Google's poorly documented Python libraries.*
 Leaving in Web Scrapping stuff in case someone wants to try it or I ever decide to use Selenium for this again.
 
-## Getting Started
+## Getting Started (DEPRECATED)
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
