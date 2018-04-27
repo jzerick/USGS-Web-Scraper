@@ -45,6 +45,10 @@ def download_recent_USGS_TIFFS():
 
 
     print(filecount, " files added.")
+    
+    #TODO: 
+    # - Upload to IBP server.
+    # - attach/upload/update exnode metadata to given periscope instance
 
 
 if __name__ == "__main__":
