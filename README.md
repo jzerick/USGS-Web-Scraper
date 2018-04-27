@@ -11,10 +11,10 @@ to be stored.
 
 ## IMPORTANT
 
-After install, just run `app.py`. *No longer using Selenium to scrape HTML, instead using Google's poorly documented Python libraries.*
+After install, just run `app.py`. _No longer using Selenium to scrape HTML, instead using Google's poorly documented Python libraries._
 Leaving in Web Scrapping stuff in case someone wants to try it or I ever decide to use Selenium for this again.
 
-## Getting Started (DEPRECATED)
+## Getting Started 
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
