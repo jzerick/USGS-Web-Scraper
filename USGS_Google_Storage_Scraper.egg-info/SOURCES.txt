@@ -1,0 +1,7 @@
+README.md
+setup.py
+USGS_Google_Storage_Scraper.egg-info/PKG-INFO
+USGS_Google_Storage_Scraper.egg-info/SOURCES.txt
+USGS_Google_Storage_Scraper.egg-info/dependency_links.txt
+USGS_Google_Storage_Scraper.egg-info/requires.txt
+USGS_Google_Storage_Scraper.egg-info/top_level.txt

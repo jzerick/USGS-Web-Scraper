@@ -1,0 +1,3 @@
+wget
+google-cloud==0.27
+uuid

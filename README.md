@@ -6,7 +6,7 @@ to be stored.
 
 ## IMPORTANT
 
-After install, just run `app.py`. No longer using Selenium to scrape HTML, instead using Google's poorly documented Python libraries.
+After install, just run `app.py`. *No longer using Selenium to scrape HTML, instead using Google's poorly documented Python libraries.*
 Leaving in Web Scrapping stuff in case someone wants to try it or I ever decide to use Selenium for this again.
 
 ## Getting Started
@@ -18,12 +18,15 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 * Python 3.4 or >
-* chromedriver and geckodriver in your path. Check Installing section for getting set up.
-I supplied the files for chromedriver and geckodriver in case you want to manually put them in your path.
+
 
 ### Installing
 
-Run setup.py
+Run `python3 setup.py build install` (perhaps in a local python virtual env).
+
+
+
+### Everything below is deprecated but still functional, leaving in my personal repo (should be ripped out before heading to data-logistics repo)
 
 You need to have chromedriver inside of your path to run headless. To run a full featured
 browser you need to have geckodriver installed in your path.
