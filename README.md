@@ -6,8 +6,8 @@ to be stored.
 
 ## TODO
 
-- Hook up with Lib-DLT, automate upload process to DLT.
 - Run as a Daemon? Make the app 'listen' for new files? Or just add command line options for periodic polling? Currently polls everything within the last week.
+- add logging
 
 ## IMPORTANT
 
