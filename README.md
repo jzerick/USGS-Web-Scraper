@@ -1,36 +1,51 @@
 # Harvester Lite
 
-Scrapes Google Storage website and API for USGS satellite TIFFS. From these TIFF files
-we take the relevant metadata, push them out to UNIS, and then send the files to DLT
-to be stored.
+The USGS Landsat Google Cloud Public Dataset is a Bigtable containing metadata that when queried, provides users references (URLs) to retrieve the satellite imagery and associated files. Rather than attempting to navigate through encoded directory names, we can use this metadata to index and obtain imagery of interest.
 
-## TODO
+To access this dataset, the user must have the proper credentials, specifically, a service account. See here for instructions on obtaining one: https://cloud.google.com/docs/authentication/getting-started
 
-- Hook up with Lib-DLT, automate upload process to DLT.
-- Run as a Daemon? Make the app 'listen' for new files? Or just add command line options for periodic polling? Currently polls everything within the last week.
+Usually the service account credentials are stored in JSON format in a local file. For authentication to work, the user must set an environmental variable containing the path to the file, e.g.:
+export GOOGLE_APPLICATION_CREDENTIALS="/path/to/file.json"
 
-## IMPORTANT
+Once authenticated, the script downloads data en masse and uploads it via libdlt. 
 
-After install, just run `app.py`. _No longer using Selenium to scrape HTML, instead using Google's poorly documented Python libraries._
-Leaving in Web Scrapping stuff in case someone wants to try it or I ever decide to use Selenium for this again.
+# Running the harvester
 
-## Getting Started 
+usage: temp.py [-h] [-w DOWNLOAD] [-n NDAYS] [-k KILLSWITCH] [-c COORDINATES]
+               [-d] [-v] [-q]
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+Harvest Landsat 7/8 data for WildfireDLN
 
-### Prerequisites
+optional arguments:
+  -h, --help            show this help message and exit
+  -w DOWNLOAD, --download DOWNLOAD
+                        Set local download directory
+  -n NDAYS, --ndays NDAYS
+                        Retrieve only images captured in the last n days
+                        (default is n=7)
+  -k KILLSWITCH, --killswitch KILLSWITCH
+                        Enable and activate kill switch after retrieving k
+                        buckets (default is disabled)
+  -c COORDINATES, --coordinates COORDINATES
+                        Retrieve only images containing the specified
+                        coordinates as latitude,longitude, e.g. -c-8.0,137.0
+  -d, --daemon          Indicates that the process should be run as a daemon
+  -v, --verbose         Produce verbose output from the script
+  -q, --quiet           Quiet mode, no logging of output
 
-What things you need to install the software and how to install them
+# Some details and examples
 
-* Python 3.4 or >
+The usual verbose, quiet, and help options act as expected. By default the script checks the Cloud for files created within the last seven days, but this can be changed with the -n option. The user can indicate interest in a particular location, specified as latitude/longitude coordinates with the -c option. For testing purposes a killswitch is available; the -k option enables a killswitch to be activated after so many "Buckets" (Landsat scenes) are downloaded.
 
+If the user wishes to search files created in the last 10 days, at location latitude=-8 and longitude=137, but stop after downloading 3 scenes matching those characteristics, the following will suffice:
 
-### Installing
+python3 app.py -n10 -c-8,137 -k3
 
-Run `python3 setup.py build install` (perhaps in a local python virtual env).
-Use `python3 app.py` to begin fetching USGS landsat data.
+A download directory can additionally be specified with the -w option, e.g.:
 
+python3 app.py -n10 -c-8,137 -k3 -w/path/to/data/store
 
+And if the user wishes for all of this to occur in the background, -d will daemonize the process.
 
 ### Everything below is deprecated but still functional, leaving in my personal repo (should be ripped out before heading to data-logistics repo)
 
